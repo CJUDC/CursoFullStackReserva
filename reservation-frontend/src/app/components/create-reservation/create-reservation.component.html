@@ -1,0 +1,78 @@
+<div class="form-container">
+  <div class="back-link-wrapper">
+    <a routerLink="/" class="back-link">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="back-arrow"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Volver al panel
+    </a>
+  </div>
+
+  <div class="card form-card">
+    <div class="form-header">
+      <h2>Programar Cita</h2>
+      <p>Ingresa los detalles de la nueva reserva a continuación</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="customerName">Nombre del Cliente</label>
+        <div class="input-wrapper">
+          <input 
+            id="customerName"
+            formControlName="customerName" 
+            type="text" 
+            placeholder="Ej. Carlos Pérez"
+            [class.is-invalid]="form.get('customerName')?.invalid && form.get('customerName')?.touched"
+          />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="date">Fecha</label>
+          <div class="input-wrapper">
+            <input 
+              id="date"
+              formControlName="date" 
+              type="date"
+              [class.is-invalid]="form.get('date')?.invalid && form.get('date')?.touched"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="time">Hora</label>
+          <div class="input-wrapper">
+            <input 
+              id="time"
+              formControlName="time" 
+              type="time"
+              [class.is-invalid]="form.get('time')?.invalid && form.get('time')?.touched"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="service">Servicio</label>
+        <div class="input-wrapper">
+          <select 
+            id="service"
+            formControlName="service"
+            [class.is-invalid]="form.get('service')?.invalid && form.get('service')?.touched"
+          >
+            <option value="">Selecciona un servicio</option>
+            @for (s of services; track s) {
+              <option [value]="s">{{ s }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary btn-block" [disabled]="form.invalid">
+          Confirmar Reserva
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,78 @@
+<div class="reservations-container">
+  <div class="header-section">
+    <div class="title-area">
+      <h1>Panel de Reservas</h1>
+      <p class="subtitle">Gestiona y realiza el seguimiento de tus citas en tiempo real</p>
+    </div>
+    <a routerLink="/create" class="btn btn-primary">
+      <span class="btn-icon">+</span> Nueva Reserva
+    </a>
+  </div>
+
+  <div class="card table-card">
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Cliente</th>
+            <th>Servicio</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (reservation of reservations(); track reservation.id) {
+            <tr [class.cancelled-row]="reservation.status === 'CANCELLED'">
+              <td>
+                <div class="client-info">
+                  <div class="avatar">{{ reservation.customerName.charAt(0).toUpperCase() }}</div>
+                  <span class="client-name">{{ reservation.customerName }}</span>
+                </div>
+              </td>
+              <td>
+                <span class="service-badge">{{ reservation.service }}</span>
+              </td>
+              <td class="date-cell">{{ reservation.date }}</td>
+              <td class="time-cell">
+                <span class="time-wrapper">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="clock-icon"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  {{ reservation.time }}
+                </span>
+              </td>
+              <td>
+                <span class="status-badge" [class]="reservation.status.toLowerCase()">
+                  <span class="pulse-dot"></span>
+                  {{ reservation.status }}
+                </span>
+              </td>
+              <td>
+                <div class="action-cell">
+                  @if (reservation.status !== 'CANCELLED') {
+                    <button (click)="cancel(reservation.id)" class="btn btn-danger-outline" aria-label="Cancelar reserva">
+                      Cancelar
+                    </button>
+                  } @else {
+                    <span class="no-actions">-</span>
+                  }
+                </div>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="6" class="empty-state-cell">
+                <div class="empty-state">
+                  <div class="empty-icon">📅</div>
+                  <h3>No hay reservas registradas</h3>
+                  <p>Comienza creando una nueva cita haciendo clic en el botón superior.</p>
+                  <a routerLink="/create" class="btn btn-primary-small">Programar primera cita</a>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
